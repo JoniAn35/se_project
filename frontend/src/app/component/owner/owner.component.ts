@@ -11,7 +11,7 @@ import { Owner } from '../../dto/owner';
   templateUrl: './owners.component.html',
   styleUrls: ['./owners.component.scss']
 })
-export class OwnersComponent implements OnInit {
+export class OwnerComponent implements OnInit {
   owners: Owner[] = [];
   isLoading = false;
 

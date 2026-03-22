@@ -11,54 +11,54 @@
     <div class="form-group">
       <label for="firstName">First Name <span class="required">*</span></label>
       <input
-        type="text"
-        id="firstName"
-        name="firstName"
-        [(ngModel)]="owner.firstName"
-        required
-        class="form-control"
-        [disabled]="isLoading"
+              type="text"
+              id="firstName"
+              name="firstName"
+              [(ngModel)]="owner.firstName"
+              required
+              class="form-control"
+              [disabled]="isLoading"
       />
     </div>
 
     <div class="form-group">
       <label for="lastName">Last Name <span class="required">*</span></label>
       <input
-        type="text"
-        id="lastName"
-        name="lastName"
-        [(ngModel)]="owner.lastName"
-        required
-        class="form-control"
-        [disabled]="isLoading"
+              type="text"
+              id="lastName"
+              name="lastName"
+              [(ngModel)]="owner.lastName"
+              required
+              class="form-control"
+              [disabled]="isLoading"
       />
     </div>
 
     <div class="form-group">
       <label for="email">Email (optional)</label>
       <input
-        type="email"
-        id="email"
-        name="email"
-        [(ngModel)]="owner.email"
-        class="form-control"
-        [disabled]="isLoading"
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="owner.email"
+              class="form-control"
+              [disabled]="isLoading"
       />
     </div>
 
     <div class="button-group">
       <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="isLoading || !createForm.valid"
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="isLoading || !createForm.valid"
       >
         {{ isLoading ? 'Creating...' : 'Create Owner' }}
       </button>
       <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="onCancel()"
-        [disabled]="isLoading"
+              type="button"
+              class="btn btn-secondary"
+              (click)="onCancel()"
+              [disabled]="isLoading"
       >
         Cancel
       </button>
