@@ -1,0 +1,37 @@
+<div class="owners-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Owners</h1>
+    <a routerLink="/owners/create" class="btn btn-primary">
+      <i class="bi bi-plus-lg"></i> Create New Owner
+    </a>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && owners.length === 0" class="alert alert-info">
+    No owners found. <a routerLink="/owners/create">Create one now!</a>
+  </div>
+
+  <div *ngIf="!isLoading && owners.length > 0" class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead class="table-light">
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let owner of owners">
+        <td>{{ owner.firstName }}</td>
+        <td>{{ owner.lastName }}</td>
+        <td>{{ owner.email || '-' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -137,26 +137,26 @@
             <i class="bi bi-info-circle me-2"></i>General Information
           </h5>
         </div>
-        <div class="card-body">
-          <div class="row mb-3">
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <h5>Date of Birth</h5>
+                <p>{{ dateOfBirthAsLocaleDate(horse) }}</p>
+              </div>
+            </div>
             <div class="col-md-6">
-              <h5>Date of Birth</h5>
-              <p>{{ dateOfBirthAsLocaleDate(horse) }}</p>
+              <h5>Sex</h5>
+              <p>{{ horse.sex === 'FEMALE' ? 'Female' : 'Male' }}</p>
             </div>
-          </div>
-          <div class="col-md-6">
-            <h5>Sex</h5>
-            <p>{{ horse.sex === 'FEMALE' ? 'Female' : 'Male' }}</p>
-          </div>
-          @if (horse.description) {
-          <div class="row mb-3">
-            <div class="col-12">
-              <h5>Description</h5>
-              <p>{{ horse.description }}</p>
+            @if (horse.description) {
+            <div class="row mb-3">
+              <div class="col-12">
+                <h5>Description</h5>
+                <p>{{ horse.description }}</p>
+              </div>
             </div>
+            }
           </div>
-          }
-        </div>
       </div>
 
       <!-- Owner Card -->
