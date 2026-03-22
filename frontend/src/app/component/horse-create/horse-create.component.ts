@@ -1,93 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HorseService } from '../../service/horse.service';
-import { OwnerService } from '../../service/owner.service';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { HorseCreate } from '../../dto/horse';
-import { Owner } from '../../dto/owner';
-import { Sex } from '../../dto/sex';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AutocompleteComponent } from 'src/app/component/autocomplete/autocomplete.component';
+import { HorseService } from 'src/app/service/horse.service';
+import { Horse } from 'src/app/dto/horse';
+import { Owner } from 'src/app/dto/owner';
+import { ConfirmDeleteDialogComponent } from 'src/app/component/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Component({
-  selector: 'app-horse-create',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './horse-create.component.html',
-  styleUrls: ['./horse-create.component.scss']
+  selector: 'app-horse',
+  templateUrl: './horse.component.html',
+  imports: [
+    RouterLink,
+    FormsModule,
+    AutocompleteComponent,
+    ConfirmDeleteDialogComponent
+],
+  styleUrls: ['./horse.component.scss']
 })
-export class HorseCreateComponent implements OnInit {
-  form: FormGroup;
-  owners: Owner[] = [];
-  sexOptions: Sex[] = [Sex.MALE, Sex.FEMALE];
-  submitted = false;
-  errorMessage: string | null = null;
+export class HorseComponent implements OnInit {
+  horses: Horse[] = [];
+  bannerError: string | null = null;
+  horseForDeletion: Horse | undefined;
 
   constructor(
-    private fb: FormBuilder,
-    private horseService: HorseService,
-    private ownerService: OwnerService,
-    private router: Router
-  ) {
-    this.form = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(1)]],
-      description: [''],
-      dateOfBirth: ['', Validators.required],
-      sex: ['', Validators.required],
-      ownerId: [null]
-    });
-  }
+    private service: HorseService,
+    private notification: ToastrService,
+  ) { }
 
   ngOnInit(): void {
-    this.loadOwners();
+    this.reloadHorses();
   }
 
-  loadOwners(): void {
-    this.ownerService.search({}).subscribe({
-      next: (owners) => {
-        this.owners = owners;
-      },
-      error: (err) => console.error('Error loading owners', err)
-    });
+  reloadHorses() {
+    this.service.getAll()
+      .subscribe({
+        next: data => {
+          this.horses = data;
+        },
+        error: error => {
+          console.error('Error fetching horses', error);
+          this.bannerError = 'Could not fetch horses: ' + error.message;
+          const errorMessage = error.status === 0
+            ? 'Is the backend up?'
+            : error.message.message;
+          this.notification.error(errorMessage, 'Could Not Fetch Horses');
+        }
+      });
   }
 
-  onSubmit(): void {
-    this.submitted = true;
-    this.errorMessage = null;
-
-    if (this.form.invalid) {
-      return;
-    }
-
-    const formData = this.form.value;
-    const horseData: HorseCreate = {
-      name: formData.name,
-      description: formData.description || undefined,
-      dateOfBirth: formData.dateOfBirth,
-      sex: formData.sex,
-      ownerId: formData.ownerId || undefined
-    };
-
-    this.horseService.create(horseData).subscribe({
-      next: (horse) => {
-        console.log('Horse created successfully', horse);
-        this.router.navigate(['/horses', horse.id]);
-      },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Error creating horse';
-        console.error('Error creating horse', err);
-      }
-    });
+  ownerName(owner: Owner | null): string {
+    return owner
+      ? `${owner.firstName} ${owner.lastName}`
+      : '';
   }
 
-  get name() {
-    return this.form.get('name');
+  dateOfBirthAsLocaleDate(horse: Horse): string {
+    return new Date(horse.dateOfBirth).toLocaleDateString();
   }
 
-  get dateOfBirth() {
-    return this.form.get('dateOfBirth');
-  }
 
-  get sex() {
-    return this.form.get('sex');
+  deleteHorse(horse: Horse) {
+    // TODO: delete the horse
   }
 }
