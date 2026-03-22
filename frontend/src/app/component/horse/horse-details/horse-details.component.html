@@ -1,73 +1,214 @@
-<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>{{ horse?.name || 'Horse Details' }}</h1>
-    <button class="btn btn-secondary" (click)="goBack()" aria-label="Go back">
+<!--<div class="container mt-5 mb-5">-->
+<!--  <div class="d-flex justify-content-between align-items-center mb-5">-->
+<!--    <div>-->
+<!--      <h1 class="mb-0">{{ horse?.name || 'Horse Details' }}</h1>-->
+<!--      @if (horse?.sex) {-->
+<!--        <small class="text-muted">{{ horse.sex === 'FEMALE' ? '🐴 Mare' : '🐎 Stallion' }}</small>-->
+<!--      }-->
+<!--    </div>-->
+<!--    <button class="btn btn-outline-secondary" (click)="goBack()" aria-label="Go back">-->
+<!--      <i class="bi bi-arrow-left"></i> Back-->
+<!--    </button>-->
+<!--  </div>-->
+
+<!--  @if (loading) {-->
+<!--  <div class="alert alert-info d-flex align-items-center" role="alert">-->
+<!--    <div class="spinner-border spinner-border-sm me-2" role="status">-->
+<!--      <span class="visually-hidden">Loading...</span>-->
+<!--    </div>-->
+<!--    Loading horse details...-->
+<!--  </div>-->
+<!--  } @else if (error) {-->
+<!--  <div class="alert alert-danger d-flex align-items-center" role="alert">-->
+<!--    <i class="bi bi-exclamation-circle me-2"></i>-->
+<!--    {{ error }}-->
+<!--  </div>-->
+<!--  } @else if (horse) {-->
+<!--  <div class="card mb-4">-->
+<!--    <div class="card-body">-->
+<!--      <div class="row mb-3">-->
+<!--        <div class="col-md-6">-->
+<!--          <h5>Name</h5>-->
+<!--          <p>{{ horse.name }}</p>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--          <h5>Date of Birth</h5>-->
+<!--          <p>{{ dateOfBirthAsLocaleDate(horse) }}</p>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="row mb-3">-->
+<!--        <div class="col-md-6">-->
+<!--          <h5>Sex</h5>-->
+<!--          <p>{{ horse.sex === 'FEMALE' ? 'Female' : 'Male' }}</p>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--          <h5>Owner</h5>-->
+<!--          <p>{{ ownerName(horse.owner) }}</p>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      @if (horse.description) {-->
+<!--      <div class="row mb-3">-->
+<!--        <div class="col-12">-->
+<!--          <h5>Description</h5>-->
+<!--          <p>{{ horse.description }}</p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      }-->
+
+<!--      <div class="col-lg-4">-->
+<!--        <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">-->
+<!--          <div class="card-header bg-light border-bottom">-->
+<!--            <h5 class="mb-0">-->
+<!--              <i class="bi bi-gear me-2"></i>Actions-->
+<!--            </h5>-->
+<!--          </div>-->
+<!--          <div class="card-body d-flex flex-column gap-2">-->
+<!--            <button class="btn btn-primary w-100" (click)="goToEdit()" aria-label="Edit horse">-->
+<!--              <i class="bi bi-pencil-square me-2"></i>Edit Horse-->
+<!--            </button>-->
+<!--            <button class="btn btn-outline-danger w-100" (click)="deleteHorse()" aria-label="Delete horse">-->
+<!--              <i class="bi bi-trash me-2"></i>Delete Horse-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  @if (horse.owner) {-->
+<!--  <div class="alert alert-info">-->
+<!--    <strong>Owner:</strong> {{ ownerName(horse.owner) }}-->
+<!--  </div>-->
+<!--  }-->
+<!--  } @else {-->
+<!--  <div class="alert alert-warning">-->
+<!--    No horse found-->
+<!--  </div>-->
+<!--  }-->
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container mt-5 mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+      <h1 class="mb-0">{{ horse?.name || 'Horse Details' }}</h1>
+      @if (horse?.sex) {
+      <small class="text-muted">{{ horse.sex === 'FEMALE' ? '🐴 Mare' : '🐎 Stallion' }}</small>
+      }
+    </div>
+    <button class="btn btn-outline-secondary" (click)="goBack()" aria-label="Go back">
       <i class="bi bi-arrow-left"></i> Back
     </button>
   </div>
 
   @if (loading) {
-  <div class="alert alert-info">
+  <div class="alert alert-info d-flex align-items-center" role="alert">
+    <div class="spinner-border spinner-border-sm me-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
     Loading horse details...
   </div>
   } @else if (error) {
-  <div class="alert alert-danger">
+  <div class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-circle me-2"></i>
     {{ error }}
   </div>
   } @else if (horse) {
-  <div class="card mb-4">
-    <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <h5>Name</h5>
-          <p>{{ horse.name }}</p>
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Main Info Card -->
+      <div class="card mb-4">
+        <div class="card-header bg-light border-bottom">
+          <h5 class="mb-0">
+            <i class="bi bi-info-circle me-2"></i>General Information
+          </h5>
         </div>
-        <div class="col-md-6">
-          <h5>Date of Birth</h5>
-          <p>{{ dateOfBirthAsLocaleDate(horse) }}</p>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h5>Date of Birth</h5>
+              <p>{{ dateOfBirthAsLocaleDate(horse) }}</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h5>Sex</h5>
+            <p>{{ horse.sex === 'FEMALE' ? 'Female' : 'Male' }}</p>
+          </div>
+          @if (horse.description) {
+          <div class="row mb-3">
+            <div class="col-12">
+              <h5>Description</h5>
+              <p>{{ horse.description }}</p>
+            </div>
+          </div>
+          }
         </div>
       </div>
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <h5>Sex</h5>
-          <p>{{ horse.sex === 'FEMALE' ? 'Female' : 'Male' }}</p>
+      <!-- Owner Card -->
+      @if (horse.owner) {
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-light border-bottom">
+          <h5 class="mb-0">
+            <i class="bi bi-person me-2"></i>Owner
+          </h5>
         </div>
-        <div class="col-md-6">
-          <h5>Owner</h5>
-          <p>{{ ownerName(horse.owner) }}</p>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <p class="fs-5 mb-1 fw-bold">{{ ownerName(horse.owner) }}</p>
+              @if (horse.owner.email) {
+              <p class="text-muted mb-0">
+                <i class="bi bi-envelope me-2"></i>{{ horse.owner.email }}
+              </p>
+              }
+            </div>
+          </div>
         </div>
       </div>
-
-      @if (horse.description) {
-      <div class="row mb-3">
-        <div class="col-12">
-          <h5>Description</h5>
-          <p>{{ horse.description }}</p>
-        </div>
+      } @else {
+      <div class="alert alert-light border border-secondary">
+        <i class="bi bi-info-circle me-2"></i>No owner assigned
       </div>
       }
+    </div>
 
-      <div class="row">
-        <div class="col-12">
-          <button class="btn btn-primary me-2" (click)="goToEdit()" aria-label="Edit horse">
-            <i class="bi bi-pencil"></i> Edit
+    <!-- Sidebar Actions -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-light border-bottom">
+          <h5 class="mb-0">
+            <i class="bi bi-gear me-2"></i>Actions
+          </h5>
+        </div>
+        <div class="card-body d-flex flex-column gap-2">
+          <button class="btn btn-primary w-100" (click)="goToEdit()" aria-label="Edit horse">
+            <i class="bi bi-pencil-square me-2"></i>Edit Horse
           </button>
-          <button class="btn btn-danger" (click)="deleteHorse()" aria-label="Delete horse">
-            <i class="bi bi-trash"></i> Delete
+          <button class="btn btn-outline-danger w-100" (click)="deleteHorse()" aria-label="Delete horse">
+            <i class="bi bi-trash me-2"></i>Delete Horse
           </button>
         </div>
       </div>
     </div>
   </div>
-
-  @if (horse.owner) {
-  <div class="alert alert-info">
-    <strong>Owner:</strong> {{ ownerName(horse.owner) }}
-  </div>
-  }
   } @else {
-  <div class="alert alert-warning">
+  <div class="alert alert-warning d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>
     No horse found
   </div>
   }
