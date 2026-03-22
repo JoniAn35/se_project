@@ -32,7 +32,7 @@ public interface HorseService {
    * @throws ConflictException if the update data given for the horse is in conflict the data currently in the system (owner does not exist, …)
    */
   HorseDetailDto create(
-      HorseCreateDto horse
+          HorseCreateDto horse
   ) throws ValidationException, ConflictException;
 
   /**
