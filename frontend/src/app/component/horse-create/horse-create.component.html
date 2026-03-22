@@ -13,11 +13,11 @@
     <div class="form-group">
       <label for="name">Name *</label>
       <input
-              type="text"
-              id="name"
-              formControlName="name"
-              class="form-control"
-              [class.is-invalid]="submitted && name?.invalid"
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        [class.is-invalid]="submitted && name?.invalid"
       />
       @if (submitted && name?.invalid) {
       <div class="error">
@@ -35,8 +35,8 @@
     <div class="form-group">
       <label for="description">Description</label>
       <textarea
-              id="description"
-              formControlName="description"
-              class="form-control"
-              rows="4"
+        id="description"
+        formControlName="description"
+        class="form-control"
+        rows="4"
       ></textarea>
