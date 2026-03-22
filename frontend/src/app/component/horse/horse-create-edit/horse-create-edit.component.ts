@@ -34,7 +34,7 @@ export class HorseCreateEditComponent implements OnInit {
     dateOfBirth: '',
     sex: Sex.female,
   };
-
+  horseId: number | null = null;
 
   constructor(
     private service: HorseService,
@@ -49,6 +49,8 @@ export class HorseCreateEditComponent implements OnInit {
     switch (this.mode) {
       case HorseCreateEditMode.create:
         return 'Create New Horse';
+      case HorseCreateEditMode.edit:
+        return 'Edit Horse';
       default:
         return '?';
     }
@@ -58,6 +60,8 @@ export class HorseCreateEditComponent implements OnInit {
     switch (this.mode) {
       case HorseCreateEditMode.create:
         return 'Create';
+      case HorseCreateEditMode.edit:
+        return 'Save Changes';
       default:
         return '?';
     }
@@ -67,11 +71,16 @@ export class HorseCreateEditComponent implements OnInit {
     return this.mode === HorseCreateEditMode.create;
   }
 
+  get modeIsEdit(): boolean {
+    return this.mode === HorseCreateEditMode.edit;
+  }
 
   private get modeActionFinished(): string {
     switch (this.mode) {
       case HorseCreateEditMode.create:
         return 'created';
+      case HorseCreateEditMode.edit:
+        return 'updated';
       default:
         return '?';
     }
@@ -84,6 +93,29 @@ export class HorseCreateEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.mode = data.mode;
+    });
+
+    if (this.mode === HorseCreateEditMode.edit) {
+      this.route.paramMap.subscribe(params => {
+        const id = params.get('id');
+        if (id) {
+          this.horseId = parseInt(id);
+          this.loadHorse(this.horseId);
+        }
+      });
+    }
+  }
+
+  private loadHorse(id: number): void {
+    this.service.getById(id).subscribe({
+      next: (horse: Horse) => {
+        this.horse = horse;
+      },
+      error: (error: any) => {
+        console.error('Error loading horse', error);
+        this.notification.error('Failed to load horse');
+        this.router.navigate(['/horses']);
+      }
     });
   }
 
@@ -113,21 +145,50 @@ export class HorseCreateEditComponent implements OnInit {
             convertFromHorseToCreate(this.horse)
           );
           break;
+        case HorseCreateEditMode.edit:
+          if (!this.horseId) {
+            console.error('No horse ID for edit');
+            return;
+          }
+          observable = this.service.update(
+            this.horseId,
+            convertFromHorseToCreate(this.horse)
+          );
+          break;
         default:
           console.error('Unknown HorseCreateEditMode', this.mode);
           return;
       }
       observable.subscribe({
-        next: data => {
+        next: (data: Horse) => {
           this.notification.success(`Horse ${this.horse.name} successfully ${this.modeActionFinished}.`);
           this.router.navigate(['/horses']);
         },
-        error: error => {
-          console.error('Error creating horse', error);
-          // TODO show an error message to the user. Include and sensibly present the info from the backend!
+        error: (error: any) => {
+          console.error(`Error ${this.modeActionFinished === 'created' ? 'creating' : 'updating'} horse`, error);
+          this.notification.error(`Failed to ${this.modeActionFinished === 'created' ? 'create' : 'update'} horse`);
         }
       });
     }
   }
 
+  public deleteHorse(): void {
+    if (!this.horseId) {
+      console.error('No horse ID for delete');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete horse "${this.horse.name}"?`)) {
+      this.service.delete(this.horseId).subscribe({
+        next: () => {
+          this.notification.success(`Horse ${this.horse.name} successfully deleted.`);
+          this.router.navigate(['/horses']);
+        },
+        error: (error: any) => {
+          console.error('Error deleting horse', error);
+          this.notification.error('Failed to delete horse');
+        }
+      });
+    }
+  }
 }

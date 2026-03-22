@@ -61,7 +61,20 @@ export class HorseComponent implements OnInit {
   }
 
 
-  deleteHorse(horse: Horse) {
-    // TODO: delete the horse
+  public deleteHorse(horse: Horse | null): void {
+    if (!horse || !horse.id) {
+      return;
+    }
+
+    this.service.delete(horse.id).subscribe({
+      next: () => {
+        this.notification.success(`Horse ${horse.name} successfully deleted.`);
+        this.reloadHorses();
+      },
+      error: (error: any) => {
+        console.error('Error deleting horse', error);
+        this.notification.error('Failed to delete horse');
+      }
+    });
   }
 }

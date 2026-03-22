@@ -24,6 +24,15 @@ export class HorseService {
     return this.http.get<Horse[]>(baseUri);
   }
 
+  /**
+   * Get a horse by its ID
+   *
+   * @param id the ID of the horse to fetch
+   * @return observable of the horse
+   */
+  getById(id: number): Observable<Horse> {
+    return this.http.get<Horse>(`${baseUri}/${id}`);
+  }
 
   /**
    * Create a new horse in the system.
@@ -39,4 +48,27 @@ export class HorseService {
     );
   }
 
+  /**
+   * Update an existing horse in the system.
+   *
+   * @param id the ID of the horse to update
+   * @param horse the updated horse data
+   * @return an Observable for the updated horse
+   */
+  update(id: number, horse: HorseCreate): Observable<Horse> {
+    return this.http.put<Horse>(
+      `${baseUri}/${id}`,
+      horse
+    );
+  }
+
+  /**
+   * Delete a horse from the system.
+   *
+   * @param id the ID of the horse to delete
+   * @return an Observable that completes when deletion is done
+   */
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${baseUri}/${id}`);
+  }
 }
