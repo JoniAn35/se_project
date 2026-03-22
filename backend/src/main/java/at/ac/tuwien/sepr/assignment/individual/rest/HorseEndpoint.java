@@ -82,6 +82,7 @@ public class HorseEndpoint {
    * @return the created horse details
    */
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
   public HorseDetailDto create(@RequestBody HorseCreateDto toCreate) {
     LOG.info("POST " + BASE_PATH);
     LOG.debug("Request body: {}", toCreate);
