@@ -1,6 +1,0 @@
-#FileLock
-#Sun Mar 15 19:00:44 CET 2026
-hostName=10.10.3.17
-id=19cf2a852ca2389dca6c719f1d6a89396d305d1ef6c
-method=file
-server=10.10.3.17\:59736
