@@ -1,0 +1,90 @@
+<div class="container">
+  <h1>Create Horse</h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        [class.is-invalid]="submitted && name?.invalid"
+      />
+      <div *ngIf="submitted && name?.invalid" class="error">
+        <span *ngIf="name?.errors?.['required']">Name is required</span>
+        <span *ngIf="name?.errors?.['minlength']">Name must be at least 1 character</span>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <!-- Date of Birth -->
+    <div class="form-group">
+      <label for="dateOfBirth">Date of Birth *</label>
+      <input
+        type="date"
+        id="dateOfBirth"
+        formControlName="dateOfBirth"
+        class="form-control"
+        [class.is-invalid]="submitted && dateOfBirth?.invalid"
+      />
+      <div *ngIf="submitted && dateOfBirth?.invalid" class="error">
+        <span *ngIf="dateOfBirth?.errors?.['required']">Date of birth is required</span>
+      </div>
+    </div>
+
+    <!-- Sex -->
+    <div class="form-group">
+      <label for="sex">Sex *</label>
+      <select
+        id="sex"
+        formControlName="sex"
+        class="form-control"
+        [class.is-invalid]="submitted && sex?.invalid"
+      >
+        <option value="">Select sex</option>
+        <option *ngFor="let s of sexOptions" [value]="s">
+          {{ s }}
+        </option>
+      </select>
+      <div *ngIf="submitted && sex?.invalid" class="error">
+        <span *ngIf="sex?.errors?.['required']">Sex is required</span>
+      </div>
+    </div>
+
+    <!-- Owner -->
+    <div class="form-group">
+      <label for="ownerId">Owner</label>
+      <select id="ownerId" formControlName="ownerId" class="form-control">
+        <option [value]="null">No owner</option>
+        <option *ngFor="let owner of owners" [value]="owner.id">
+          {{ owner.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary">Create Horse</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/horses'])">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
