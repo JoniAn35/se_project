@@ -18,7 +18,6 @@ public interface HorseDao {
    */
   List<Horse> getAll();
 
-
   /**
    * Create a horse with the data given in {@code horse}
    *  in the persistent data store.
@@ -28,13 +27,12 @@ public interface HorseDao {
    */
   Horse create(HorseCreateDto horse);
 
-
   /**
-   * Get a horse by its ID from the persistent data store.
+   * Retrieve a horse by its ID from the persistent data store.
    *
-   * @param id the ID of the horse to get
-   * @return the horse
-   * @throws NotFoundException if the Horse with the given ID does not exist in the persistent data store
+   * @param id the ID of the horse to retrieve
+   * @return the horse entity with the given ID
+   * @throws NotFoundException if no horse with the given ID exists in the persistent data store
    */
   Horse getById(long id) throws NotFoundException;
 
